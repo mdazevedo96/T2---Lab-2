@@ -7,6 +7,6 @@ struct matriz{
     char* palavras;
 }typedef struct Matriz mat;
 
-void alocaMatriz(int m, n);
+void preencheMatriz(int m, int n);
 
 
