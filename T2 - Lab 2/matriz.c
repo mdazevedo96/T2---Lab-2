@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include "matriz.h"
 
-void preencheMatriz(int m, int n){
+void alocaMatriz(int m, int n){
     char** mat = (char**) malloc(m*sizeof(char*));
     if(mat == NULL){
         printf("Erro na alocacao");
@@ -14,10 +14,8 @@ void preencheMatriz(int m, int n){
         }
         for(int i=0; i<m; i++){
             for(int j=0; j<n; j++){
-                printf("Digite a palavra: \n");
-                scanf("%s", &mat[i][j]);
+                mat[i][j] = "\0";
             }
         }
-
     }
 }

@@ -5,8 +5,8 @@
 struct matriz{
     int m, n;
     char* palavras;
-}typedef struct Matriz mat;
+}mat;
 
-void preencheMatriz(int m, int n);
+void alocaMatriz(int m, int n);
 
 
