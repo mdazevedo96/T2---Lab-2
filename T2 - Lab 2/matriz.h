@@ -5,7 +5,7 @@
 struct matriz{
     int m, n;
     char* palavras;
-}mat;
+};
 
 void alocaMatriz(int m, int n);
 
