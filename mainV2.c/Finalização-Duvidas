@@ -1,0 +1,4 @@
+Padronizar e simplificar código (se for possível);
+Adicionar verificação dos dados de entrada (se é um dado válido, etc);
+Implementar funções de busca: horizontal, vertical, diag. primária e secundária, além de revertido;
+Remover , . e outros simbolos do preenchimento da matriz. substituir, remover, ou conseguir adicionar chars ilegiveis (ç, ã, etc)?
