@@ -1,93 +1,82 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "printMat.h"
 
-void leTamanho(int* m, int* n)
+void le_tamanho(int* l, int* c)
 {
-    printf("INSIRA O TAMANHO DA MATRIZ(LINHA x COLUNA): ");
-    scanf(" %d %d", m, n);
+    printf("INSIRA O TAMANHO DA MATRIZ(LINHA  COLUNA): ");
+    scanf(" %d %d", l, c);
     while((getchar()) != '\n');
 }
 
-char ** inicia_matriz(int m, int n)
+char ** inicia_matriz(int l, int c)
 {
-    char ** matriz = NULL;
-    matriz = (char **) malloc (m * sizeof(char*));
+    char ** matriz = (char **) malloc (l * sizeof(char*));
     if (matriz == NULL){
-        printf("Erro de alocacao");
+        printf("ERRO DE ALOCACAO");
         exit(1);
     }
-    for(int i=0; i< n; i++){
-        matriz[i] = (char*) malloc(n * sizeof(char));
+    for(int i=0; i<l; i++){
+        matriz[i] = (char*) malloc(c * sizeof(char));
 
         if(matriz[i] == NULL){
-            printf("Erro na alocacao");
+            printf("ERRO NA ALOCACAO");
             exit(1);
         }
-        for(int j=0; j<n;j++){
+    }
+    for(int i=0; i<l; i++){
+        for(int j=0; j<c; j++){
             matriz[i][j] = '\0';
         }
     }
     return matriz;
 }
 
-void preencheMatriz(char*** mat, int m, int n)
+int preenche_matriz(char*** mat, int l, int c)
 {
     int k = 0;
-    char aux[500];
+    char aux[800];
 
     printf("DIGITE UM TEXTO: ");
     fgets(aux, sizeof(aux), stdin);
 
-    for(int i = 0; i < m; i++) {
-        for(int j = 0; j < n; j++) {
-            if((aux[k] == ' ') || (aux[k] == '\n')) {k += 1;}
-            (*mat)[i][j] = aux[k];
-            k +=1;
+    for(int i = 0; i < l; i++) {
+        for(int j = 0; j < c; j++) {
+            while(aux[k] == ' ') {k += 1;}
+            if(aux[k] == '\n' || aux[k] == '\0') {return 0;}
+            (*mat)[i][j] = toupper(aux[k]);
+            k += 1;
         }
     }
+    return 1;
 }
 
-/*
-void imprimeMatriz(char** mat, int m, int n)
+void libera_matriz(char** mat, int l)
 {
-//adicionei o if e else pq dps que terminava os chars da matriz, por conta do '\n' no stdin (eu creio), ele jogava pra baixo o restante dos [] vazios.
-    for(int i=0; i<m; i++){
-        for(int j=0; j<n; j++){
-            if(mat[i][j] != '\0'){
-                printf("[%c]", mat[i][j]);
-            }else {printf("[ ]");}
-        }
-        printf("\n");
+    for (int i = 0; i < l; i++) {
+        free(mat[i]);
     }
-}
-*/
-
-
-void liberaMatriz(char** matriz, int m)
-{
-    for (int i = 0; i < m; i++) {
-        free(matriz[i]);
-    }
-    free(matriz);
+    free(mat);
 }
 
-/*buscaPalavras() (separa essa aqui em mais funcoes)*/
+/*só falta essa, separar em mais funcoes. E depois que estiver tudo rodando, criar funcoes.c e funcoes.h*/
+void busca_palavras(){}
 
 int main()
 {
     int m, n;
 
-    leTamanho(&m ,&n);
+    le_tamanho(&m ,&n);
 
     char** matriz = inicia_matriz(m, n);
 
-    preencheMatriz(&matriz, m, n);
-    //estava fazendo uma funcao pra imprimir matriz usando ┃ ━; como já estava no processo, terminei de criar, aí deixo a teu critério qual tu quer usar.
-//    print_mat(matriz, m, n); //só chamar essa que ela imprime, mas tem q ter o printMat.h
+    preenche_matriz(&matriz, m, n);
 
-    liberaMatriz(matriz, m);
+    print_mat(matriz, m, n);
+
+    libera_matriz(matriz, m);
 
     return 0;
 }
