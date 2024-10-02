@@ -9,7 +9,7 @@ void print_n_lin(int i)
 
 void print_n_col(int c)
 {
-    printf("\n     ");
+    printf("\n      ");
     for(int x = 0; x < c; x++)
     {
         if(x>=10)
