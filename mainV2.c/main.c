@@ -5,44 +5,44 @@
 #include "printMat.h"
 #include "funcoes.h"
 
-/*só falta essa, separar em mais funcoes. E depois que estiver tudo rodando, adicionar em funcoes.c e funcoes.h*/
-/*??? Porvavelmente há um jeito melhor de fazer essa parte*/
-void busca_palavras()
+int horizontal(char** mat, int l, int c, char* buscada)
 {
-    char palavras[800];
-    char buscada[50];
-    int tam, t, nvTam;
-
-    printf("DIGITE AS PALAVRAS QUE DESEJA PROCURAR NO CAÇA-PALAVRA: ");
-    fgets(palavras, sizeof(palavras), stdin);
-
-    tam = strlen(palavras);
-    palavras[tam-1] = '\0';
-
-    printf("\nstring palavras: %s. Tam string: %d. Ultimo char(deve ser vazio): (%c)", palavras, tam, palavras[tam-1]);
-
-//separa a primeira palavra da string 'palavras' pra poder buscar a mesma;
-    for(int i = 0; palavras[i] != ' '; i++){
-        buscada[i] = palavras[i];
-        if(palavras[i+1] == ' '){
-            buscada[i+1] = '\0';
-            t = strlen(buscada)+1;
+    char* p;
+    int ini, fim, tam = strlen(buscada);
+    for(int i=0; i<l; i++){
+        p = strstr(mat[i], buscada);
+        if(p != NULL){
+            ini = (p - mat[i]) + 1;
+            fim = ini + tam;
+            printf("\nPALAVRA: %s\nOCORRENCIA: HORIZONTAL DIRETA", buscada);
+            printf("\nPOSICAO DA PALAVRA: INÍCIO[%d,%d] - FIM[%d,%d].\n", i+1, ini, i+1, fim);
+            return 0;
         }
     }
+    printf("\nPALAVRA NAO ENCONTRADA\n");
+}
 
-    printf("\n%s. tam: %d", buscada, t);
-    nvTam = tam-t;
+void busca_palavras(char** mat, int lin, int col)
+{
+    char palavra[50];
+    int resposta = 1;
+    while(resposta != 0){
+        printf("\nDIGITE A PALAVRA QUE DESEJA PROCURAR: ");
+        fgets(palavra, 50, stdin);
 
-//elimina palavra ja buscada da string 'palavras';
-    printf("\n%c", palavras[t]);
+        palavra[strcspn(palavra, "\n")] = '\0';
 
-    for(int i=0; i<nvTam; i++){
-        palavras[i] = palavras[t];
-        t += 1;
+        for(int i=0; palavra[i] != '\0'; i++)
+            palavra[i] = toupper(palavra[i]);
+
+        horizontal(mat, lin, col, palavra);
+//    vertical(mat, lin, col, palavra);
+//    diag_prim(mat, lin, col, palavra);
+//    diag_sec(mat, lin, col, palavra);
+        printf("\nCONTINUAR PROCURANDO? 1-SIM   0-NAO\t");
+        scanf("%d", &resposta);
+        while((getchar()) != '\n');
     }
-    palavras[nvTam] = '\0';
-
-    printf("\nstring palavras:%s. Tam string: %d. Ultimo char(deve ser vazio): (%c)", palavras, nvTam, palavras[nvTam-1]);
 }
 
 int main()
@@ -57,7 +57,7 @@ int main()
 
     print_mat(matriz, m, n);
 
-    busca_palavras();
+    busca_palavras(matriz, m, n);
 
     libera_matriz(matriz, m);
 
